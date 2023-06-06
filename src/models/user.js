@@ -44,7 +44,12 @@ module.exports = (sequelize, DataTypes) => {
     id_jabatan: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    }
+    },
+    status : {
+      type : DataTypes.BOOLEAN,
+      allowNull : false,
+      defaultValue : true,
+    },
   }, {
     sequelize,
     timestamps : false,

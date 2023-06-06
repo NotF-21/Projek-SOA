@@ -32,6 +32,11 @@ module.exports = {
       id_jabatan: {
         type: Sequelize.INTEGER,
         allowNull: false,
+      },
+      status : {
+        type : Sequelize.BOOLEAN,
+        allowNull : false,
+        defaultValue : true,
       }
     });
   },
