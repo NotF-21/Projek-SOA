@@ -33,10 +33,17 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      status : {
-        type : Sequelize.BOOLEAN,
-        allowNull : false,
-        defaultValue : true,
+      createdAt : {
+        type : Sequelize.DATE,
+        defaultValue : Sequelize.fn('NOW')
+      },
+      updatedAt : {
+        type : Sequelize.DATE,
+        defaultValue : Sequelize.fn('NOW')
+      },
+      deletedAt : {
+        type : Sequelize.DATE,
+        allowNull : true,
       }
     });
   },

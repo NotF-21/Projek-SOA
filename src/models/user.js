@@ -45,16 +45,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    status : {
-      type : DataTypes.BOOLEAN,
-      allowNull : false,
-      defaultValue : true,
-    },
   }, {
     sequelize,
     timestamps : false,
     modelName: 'User',
     tableName : 'users',
+    paranoid : true,
+    timestamps : true,
   });
   return User;
 };
