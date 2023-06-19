@@ -49,7 +49,7 @@ module.exports = {
             }
           ]
         });
-        return res.status(201).send(users);
+        return res.status(200).send(users);
     },
     searchKaryawan : async function (req,res) {
       let token = req.header('x-auth-token');
@@ -101,7 +101,9 @@ module.exports = {
           }
         ]
       });
-      return res.status(201).send(users);
+      
+      if (users.length==0) return res.status(404).send("User tidak ditemukan !");
+      return res.status(200).send(users);
     },
     updateKaryawan : async function (req,res) {
       let token = req.header('x-auth-token');
