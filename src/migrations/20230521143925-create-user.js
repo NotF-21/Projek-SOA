@@ -33,6 +33,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      photo: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       createdAt : {
         type : Sequelize.DATE,
         defaultValue : Sequelize.fn('NOW')

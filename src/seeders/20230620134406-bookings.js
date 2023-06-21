@@ -12,18 +12,14 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('discounts', [
+    await queryInterface.bulkInsert('booking', [
       {
-        nama: "POTONGAN Sample",
-        type : "POTONGAN",
-        amount : 25000,
-        expiredAt : '2023-11-23',
-      },
-      {
-        nama: "Discount Sample",
-        type : "DISKON",
-        amount : 10,
-        expiredAt : '2023-11-23',
+        nama: "Sample Event 1",
+        tempat: "Sample Place 1",
+        participant: 420,
+        email: "sample@mail.com",
+        no_telp: "081333444555",
+        date_time: "2055-08-14",
       }
     ]);
   },
@@ -35,6 +31,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('discounts', null, {truncate : true, cascade : true});
+    await queryInterface.bulkDelete('booking', null, {truncate : true, cascade : true});
   }
 };

@@ -2,9 +2,11 @@ const { Router } = require("express");
 const employeeController = require("../controllers/EmployeeController");
 const router = Router();
 
-router.get("/list", employeeController.getAll);
-router.get("/search", employeeController.searchKaryawan);
-router.put("/update", employeeController.updateKaryawan);
-router.delete("/delete", employeeController.deleteKaryawan);
+const validateManager = require("../middlewares/validateManager");
+
+router.get("/list", validateManager, employeeController.getAll);
+router.get("/search", validateManager, employeeController.searchKaryawan);
+router.put("/update", validateManager, employeeController.updateKaryawan);
+router.delete("/delete", validateManager, employeeController.deleteKaryawan);
 
 module.exports = router;

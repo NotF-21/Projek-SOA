@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     timestamps : false,
-    modelName: 'MenuTypes',
+    modelName: 'MenuType',
     tableName : 'menu_types'
   });
   return MenuTypes;

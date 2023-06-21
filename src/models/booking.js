@@ -46,6 +46,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.DATE
     },
+    id_diskon : {
+      allowNull: true,
+      type: DataTypes.INTEGER
+    }
   }, {
     sequelize,
     timestamps : false,

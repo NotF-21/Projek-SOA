@@ -8,27 +8,8 @@ const jwt = require("jsonwebtoken");
 const { Sequelize, Op } = require("sequelize");
 const Joi = require("joi").extend(require("@joi/date"));
 
-const JWT_KEY = "ProjekSOA";
-
-
-
 module.exports = {
-    getAll : async function (req,res) {
-        let token = req.header('x-auth-token');
-        if(!req.header('x-auth-token')){
-            return res.status(400).send('Unauthorized. Please login first !')
-        }
-      
-        try {
-            let userdata = jwt.verify(token, JWT_KEY);
-    
-            if (userdata.jabatan!=3) {
-                return res.status(400).send('Karyawan selain manajer tidak dapat mengakses endpoint ini !');
-            }
-        } catch {
-            return res.status(400).send('Invalid JWT Key');
-        }
-        
+    getAll : async function (req,res) { 
         let list = await db.Discount.findAll({
             attributes: {
                 exclude : [
@@ -47,21 +28,6 @@ module.exports = {
         return res.status(200).send(list);
     },
     addDiscount : async function (req,res) {
-        let token = req.header('x-auth-token');
-        if(!req.header('x-auth-token')){
-            return res.status(400).send('Unauthorized. Please login first !')
-        }
-      
-        try {
-            let userdata = jwt.verify(token, JWT_KEY);
-    
-            if (userdata.jabatan!=3) {
-                return res.status(400).send('Karyawan selain manajer tidak dapat mengakses endpoint ini !');
-            }
-        } catch {
-            return res.status(400).send('Invalid JWT Key');
-        }
-
         let schema = Joi.object({
             nama : Joi.string().required().label("Nama"),
             type : Joi.string().required().valid("POTONGAN", "DISKON").label("Tipe").messages({
@@ -97,21 +63,6 @@ module.exports = {
         })
     },
     updateDiscount : async function (req,res) {
-        let token = req.header('x-auth-token');
-        if(!req.header('x-auth-token')){
-            return res.status(400).send('Unauthorized. Please login first !')
-        }
-      
-        try {
-            let userdata = jwt.verify(token, JWT_KEY);
-    
-            if (userdata.jabatan!=3) {
-                return res.status(400).send('Karyawan selain manajer tidak dapat mengakses endpoint ini !');
-            }
-        } catch {
-            return res.status(400).send('Invalid JWT Key');
-        }
-
         let discount = await db.Discount.findByPk(req.params.id);
 
         if (discount==null) return res.status(404).send("Diskon tidak ditemukan !");
