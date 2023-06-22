@@ -132,6 +132,8 @@ dist
 # photos + images
 uploads/public/*
 uploads/photos/*
+uploads/menus/*
 
 !uploads/public/.gitkeep
 !uploads/photos/.gitkeep
+!uploads/menus/.gitkeep

@@ -139,4 +139,121 @@ module.exports = {
             event,
         });
     },
+    addMenuOrders : async function (req,res) {
+        let orders = req.body.orders;
+        let event_id = req.body.event;
+        let jumlah = req.body.jumlah;
+
+        let e = await db.Booking.findByPk(event_id);
+        if (!e) return res.status(404).send("Event tidak terdaftar !");
+
+        let list = orders.split(",");
+        let nums = jumlah.split(",");
+
+        if (list.length!=nums.length) return res.status(400).send("Jumlah menu dengan jumlah order tidak cocok !");
+
+        for (let i = 0; i < list.length; i++) {
+            const id = list[i];
+            let m = await db.Menu.findByPk(id);
+            if (!m) return res.status(404).send("Menu tidak terdaftar !");
+        }
+
+        for (let i = 0; i < list.length; i++) {
+            const menuid = list[i];
+            
+            let ins = await db.BookingMenu.create({
+                booking_id: event_id,
+                menu_id: menuid,
+                jumlah : nums[i],
+            });
+        }
+
+        let event = await db.Booking.findByPk(event_id);
+        let listmenu = [];
+        for (let i = 0; i < list.length; i++) {
+            const menuid = list[i];
+            
+            let m = await db.Menu.findByPk(menuid);
+            listmenu.push({
+                nama : m.nama,
+                harga : m.harga,
+                jumlah : m.jumlah,
+            });
+        }
+
+        return res.status(200).send({
+            message : "Berhasil menambahkan order !",
+            event : event.nama,
+            listmenu,
+        })
+    },
+    getOrdersInEvent : async function (req,res) {
+        let list = await db.BookingMenu.findAll({
+            where : {
+                booking_id : req.params.event_id,
+            }
+        });
+
+        if (list.length==0) return res.status(400).send("Belum ada menu yang terdaftar !");
+
+        let daftar = [];
+        let sum = 0;
+        for (let i = 0; i < list.length; i++) {
+            const bookings = list[i];
+            
+            let menu = await db.Menu.findByPk(bookings.menu_id);
+            daftar.push({
+                nama : menu.nama,
+                harga : menu.harga,
+                jumlah : bookings.jumlah,
+            });
+            sum += (menu.harga*bookings.jumlah);
+        }
+
+        let event = await db.Booking.findByPk(req.params.event_id);
+        let clean = 0;
+        let dis = 0;
+        let perc = '';
+        let pot = 0;
+        if (event.id_diskon!=null) {
+            let disc = await db.Discount.findByPk(event.id_diskon);
+            if (disc.type=="DISKON") {
+                dis = 1;
+                perc = `${disc.amount}%`;
+                clean = sum*(100-disc.amount)/100;
+            } else {
+                dis = 2;
+                pot = disc.amount;
+                clean = sum-disc.amount;
+            }
+        }
+
+        return res.status(200).send({
+            acara : event.nama,
+            pesanan : daftar,
+            harga_total : sum,
+            "diskon/potongan" : (dis==0 ? 0 : (dis==1 ? perc : pot)),
+            harga_akhir : (clean==0 ? sum : clean),
+        });
+    },
+    deleteBooking : async function (req,res) {
+        let event_id = req.params.event_id;
+        let event = await db.Booking.findByPk(event_id);
+
+        if (!event) return res.status(404).send("Acara tidak ditemukan !");
+
+        let des1 = await db.BookingMenu.destroy({
+            where : {
+                booking_id : event_id
+            }
+        });
+
+        let des2 = await db.Booking.destroy({
+            where : {
+                id : event_id,
+            }
+        });
+
+        return res.status(200).send("Acara berhasil dibatalkan !");
+    },
 };

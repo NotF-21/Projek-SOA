@@ -37,13 +37,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     foto: {
       type :  DataTypes.STRING,
-      allowNull : false,
+      allowNull : true,
     },
   }, {
     sequelize,
-    timestamps : false,
+    timestamps : true,
     modelName: 'Menu',
-    tableName : 'menu'
+    tableName : 'menu',
+    paranoid : true,
   });
   return Menu;
 };
