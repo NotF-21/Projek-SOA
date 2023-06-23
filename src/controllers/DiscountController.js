@@ -57,6 +57,15 @@ module.exports = {
 
         let discount = await db.Discount.create(req.body);
 
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 250,
+        }, {
+            where : {
+                username : userdata.username
+            }
+        });
+
         return res.status(200).send({
             message : "Diskon baru berhasil dibuat !",
             discount,
@@ -122,6 +131,15 @@ module.exports = {
             let upd = await db.Discount.update(updbody, {
                 where : {
                     id : req.params.id
+                }
+            });
+
+            let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+            let use = await db.User.increment({
+                total_use : 100,
+            }, {
+                where : {
+                    username : userdata.username
                 }
             });
 

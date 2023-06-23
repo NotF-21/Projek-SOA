@@ -14,6 +14,8 @@ const { Sequelize, Op } = require("sequelize");
 const { default: axios } = require("axios");
 const Joi = require("joi").extend(require("@joi/date"));
 
+const JWT_KEY = "ProjekSOA";
+
 const valType = async (id) => {
     let type = await db.MenuType.findByPk(id);
     if (type==null) throw new Error("Tipe menu tidak terdaftar !");
@@ -52,6 +54,15 @@ module.exports = {
         if (find.data.results.length==0) return res.status(404).send("Menu tidak tersedia !");
 
         let ins = await db.Menu.create(req.body);
+
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 250,
+        }, {
+            where : {
+                username : userdata.username
+            }
+        });
 
         return res.status(201).send({
             message : "Menu berhasil ditambahkan !",
@@ -142,6 +153,15 @@ module.exports = {
             }
         });
 
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 100,
+        }, {
+            where : {
+                username : userdata.username
+            }
+        });
+
         let menu = await db.Menu.findByPk(req.params.id);
 
         return res.status(200).send({
@@ -166,6 +186,15 @@ module.exports = {
                 }, {
                     where : {
                         id : req.params.id,
+                    }
+                });
+
+                let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+                let use = await db.User.increment({
+                    total_use : 100,
+                }, {
+                    where : {
+                        username : userdata.username
                     }
                 });
 
@@ -194,6 +223,15 @@ module.exports = {
             }
         });
 
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 100,
+        }, {
+            where : {
+                username : userdata.username
+            }
+        });
+
         return res.status(200).send("Menu berhasil dihapus !");
     },
     restoreMenu : async function (req,res) {
@@ -207,6 +245,15 @@ module.exports = {
         let des = await db.Menu.restore({
             where : {
                 id : id,
+            }
+        });
+
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 100,
+        }, {
+            where : {
+                username : userdata.username
             }
         });
 

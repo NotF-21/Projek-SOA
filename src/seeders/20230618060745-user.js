@@ -20,6 +20,7 @@ module.exports = {
         nama: "Lorem Ipsum",
         no_telp: "081222333444",
         id_jabatan: 3,
+        total_use : 0,
       },
       {
         username: "john",
@@ -28,6 +29,7 @@ module.exports = {
         nama: "John Doe",
         no_telp: "081222333444",
         id_jabatan: 1,
+        total_use : 0,
       },
     ]); 
   },

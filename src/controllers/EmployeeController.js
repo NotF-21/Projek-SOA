@@ -89,6 +89,15 @@ module.exports = {
           }
         });
 
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 100,
+        }, {
+            where : {
+                username : userdata.username
+            }
+        });
+
         return res.status(200).send("User berhasil diupdate !");
     },
 
@@ -100,6 +109,15 @@ module.exports = {
         where : {
           username : username
         }
+      });
+
+      let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+      let use = await db.User.increment({
+          total_use : 100,
+      }, {
+          where : {
+              username : userdata.username
+          }
       });
 
       return res.status(200).send(`User ${username} berhasil dihapus !`);

@@ -49,6 +49,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    total_use : {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue : 0,
+    }
   }, {
     sequelize,
     modelName: 'User',

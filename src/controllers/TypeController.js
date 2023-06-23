@@ -32,6 +32,15 @@ module.exports = {
 
         let ins = await db.MenuType.create(req.body);
 
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 100,
+        }, {
+            where : {
+                username : userdata.username
+            }
+        });
+
         return res.status(201).send({
             message : "Tipe menu baru berhasil dibuat !",
             ins,

@@ -84,6 +84,14 @@ module.exports = {
         cr.id_diskon = discount;
 
         let ins = await db.Booking.create(cr);
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 250,
+        }, {
+            where : {
+                username : userdata.username
+            }
+        });
 
         return res.status(200).send({
             message : "Acara berhasil dibooking !",
@@ -132,6 +140,15 @@ module.exports = {
             }
         });
 
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 100,
+        }, {
+            where : {
+                username : userdata.username
+            }
+        });   
+
         let event = await db.Booking.findByPk(id);
 
         return res.status(200).send({
@@ -165,6 +182,15 @@ module.exports = {
                 booking_id: event_id,
                 menu_id: menuid,
                 jumlah : nums[i],
+            });
+
+            let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+            let use = await db.User.increment({
+                total_use : 50,
+            }, {
+                where : {
+                    username : userdata.username
+                }
             });
         }
 
@@ -251,6 +277,15 @@ module.exports = {
         let des2 = await db.Booking.destroy({
             where : {
                 id : event_id,
+            }
+        });
+
+        let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
+        let use = await db.User.increment({
+            total_use : 100,
+        }, {
+            where : {
+                username : userdata.username
             }
         });
 

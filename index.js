@@ -10,6 +10,5 @@ const port = process.env.PORT;
 process.on('warning', e => console.warn(e.stack));
 
 app.listen(port, function () {
-
   console.log(`listening on port ${port}...`);
 });
