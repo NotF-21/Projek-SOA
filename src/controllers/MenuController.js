@@ -173,7 +173,7 @@ module.exports = {
         const func = upload.single("foto");
         func(req,res, async function (err) {
             if(err) {
-                res.send(err)
+                res.status(400).send(err)
             }
             else {
                 fs.renameSync(

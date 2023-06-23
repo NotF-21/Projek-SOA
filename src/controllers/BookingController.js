@@ -8,6 +8,8 @@ const jwt = require("jsonwebtoken");
 const { Sequelize, Op } = require("sequelize");
 const Joi = require("joi").extend(require("@joi/date"));
 
+const JWT_KEY = "ProjekSOA";
+
 const valDiskon = async (id) => {
     let discount = await db.Discount.findByPk(id);
     if (discount==null) throw new Error("Diskon tidak terdaftar !");
@@ -220,7 +222,7 @@ module.exports = {
             }
         });
 
-        if (list.length==0) return res.status(400).send("Belum ada menu yang terdaftar !");
+        if (list.length==0) return res.status(404).send("Belum ada menu yang terdaftar !");
 
         let daftar = [];
         let sum = 0;

@@ -46,7 +46,7 @@ module.exports = {
                 }
             });
             if (user==null) {
-                return res.status(400).send("User tidak ditemukan !");
+                return res.status(404).send("User tidak ditemukan !");
             } else if (user.password!=password) {
                 return res.status(400).send("Password salah !");
             } else {

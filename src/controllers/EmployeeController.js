@@ -7,6 +7,8 @@ const upload = multer({
 const jwt = require("jsonwebtoken");
 const { Sequelize, Op } = require("sequelize");
 
+const JWT_KEY = "ProjekSOA";
+
 module.exports = {
     getAll : async function (req,res) {
         const users = await db.User.findAll({

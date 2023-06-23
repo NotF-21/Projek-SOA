@@ -8,6 +8,8 @@ const jwt = require("jsonwebtoken");
 const { Sequelize, Op } = require("sequelize");
 const Joi = require("joi").extend(require("@joi/date"));
 
+const JWT_KEY = "ProjekSOA";
+
 module.exports = {
     getAll : async function (req,res) { 
         let list = await db.Discount.findAll({
