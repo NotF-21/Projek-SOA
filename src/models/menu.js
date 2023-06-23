@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     nama: {
       type :  DataTypes.STRING,
       allowNull : false,
+      unique:true
     },
     harga: {
       type :  DataTypes.INTEGER,

@@ -2,7 +2,7 @@
     "development": {
         "username": "root",
         "password": null,
-        "database": "db_trial_soa",
+        "database": "db_projek_soa",
         "host": "127.0.0.1",
         "dialect": "mysql"
     },

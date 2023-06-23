@@ -52,9 +52,13 @@ module.exports = {
         let link = `https://api.spoonacular.com/recipes/complexSearch?query=${req.body.nama}&apiKey=8d1acc3ae2c64faeb34b5c22e8978f13`;
         let find = await axios.get(link);
         if (find.data.results.length==0) return res.status(404).send("Menu tidak tersedia !");
-
-        let ins = await db.Menu.create(req.body);
-
+        let ins;
+        try{
+            ins = await db.Menu.create(req.body);
+        }catch (error) {
+            return res.status(400).send("Sudah ada menu dengan nama tersebut");   
+        }
+        let tipe = await db.MenuType.findByPk(req.body.tipe);
         let userdata = jwt.verify(req.header("x-auth-token"), JWT_KEY);
         let use = await db.User.increment({
             total_use : 250,
@@ -67,6 +71,7 @@ module.exports = {
         return res.status(201).send({
             message : "Menu berhasil ditambahkan !",
             ins,
+            nama_tipe: tipe.nama
         })
     },
     searchMenuKeyword : async function (req,res) {

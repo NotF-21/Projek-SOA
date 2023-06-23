@@ -12,6 +12,7 @@ module.exports = {
       nama: {
         type: Sequelize.STRING,
         allowNull : false,
+        unique: true,
       },
       harga: {
         type: Sequelize.INTEGER,

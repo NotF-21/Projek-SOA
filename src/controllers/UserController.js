@@ -97,10 +97,17 @@ module.exports = {
                 res.send(err)
             }
             else {
-                fs.renameSync(
-                    `./uploads/public/${req.file.filename}`,
-                    `./uploads/photos/${req.body.username}${path.extname(req.file.originalname)}`,
-                );
+                let user = await db.User.findOne({
+                    where : {
+                        username : req.body.username
+                    }
+                });
+
+                if (!user){
+                    return res.status(404).send({
+                        message : "Tidak ada user dengan username tersebut"
+                    })
+                }
 
                 let upd = await db.User.update({
                     photo : `./uploads/photos/${req.body.username}`,
@@ -110,12 +117,10 @@ module.exports = {
                     }
                 });
 
-                let user = await db.User.findOne({
-                    where : {
-                        username : req.body.username
-                    }
-                });
-
+                fs.renameSync(
+                    `./uploads/public/${req.file.filename}`,
+                    `./uploads/photos/${req.body.username}${path.extname(req.file.originalname)}`,
+                );
                 return res.status(200).send({
                     message : "Foto berhasil diupload !",
                     user,

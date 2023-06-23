@@ -38,12 +38,12 @@ module.exports = {
         allowNull: true,
       },
       total_use : {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue : 0,
       },
       createdAt : {
-        type : Sequelize.DATE,
+        type : DataTypes.DATE,
         defaultValue : Sequelize.fn('NOW')
       },
       updatedAt : {
@@ -53,7 +53,7 @@ module.exports = {
       deletedAt : {
         type : Sequelize.DATE,
         allowNull : true,
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {
